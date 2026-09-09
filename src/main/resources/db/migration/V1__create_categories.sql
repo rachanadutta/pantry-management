@@ -1,0 +1,5 @@
+CREATE TABLE categories (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    image_url VARCHAR(500)
+);

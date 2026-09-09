@@ -1,0 +1,50 @@
+INSERT INTO categories (name, image_url)
+VALUES
+(
+    'Vegetables',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525304/ChatGPT_Image_Sep_4_2026_05_38_29_PM.png'
+),
+(
+    'Fruits',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525236/ChatGPT_Image_Sep_4_2026_05_38_22_PM.png'
+),
+(
+    'Dairy',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525306/ChatGPT_Image_Sep_4_2026_05_38_38_PM.png'
+),
+(
+    'Meat',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525307/ChatGPT_Image_Sep_4_2026_05_38_48_PM.png'
+),
+(
+    'Grains',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525306/ChatGPT_Image_Sep_4_2026_05_43_21_PM.png'
+),
+(
+    'Snacks',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525308/ChatGPT_Image_Sep_4_2026_05_44_18_PM.png'
+),
+(
+    'Beverages',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525323/ChatGPT_Image_Sep_4_2026_05_45_00_PM.png'
+),
+(
+    'Condiments',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525307/ChatGPT_Image_Sep_4_2026_05_45_51_PM.png'
+),
+(
+    'Frozen Foods',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525308/ChatGPT_Image_Sep_4_2026_05_46_37_PM.png'
+),
+(
+    'Bakery',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525307/ChatGPT_Image_Sep_4_2026_05_47_36_PM.png'
+),
+(
+    'Canned Foods',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525308/ChatGPT_Image_Sep_4_2026_05_52_54_PM.png'
+),
+(
+    'Spices',
+    'https://res.cloudinary.com/dorvwlht/image/upload/v1788525308/ChatGPT_Image_Sep_4_2026_05_55_41_PM.png'
+);

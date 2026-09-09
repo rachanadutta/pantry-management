@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.example.pantry.category.entity.Category;
 import com.example.pantry.user.entity.User;
 
 import jakarta.persistence.Column;
@@ -59,9 +60,9 @@ private LocalDateTime createdAt;
 @Column(name = "updated_at", nullable = false)
 private LocalDateTime updatedAt;
 
-// @ManyToOne
-// @JoinColumn(name = "category_id")
-// private Category category;
+@ManyToOne
+@JoinColumn(name = "category_id")
+private Category category;
 
 // @ManyToOne
 // @JoinColumn(name = "storage_location_id")

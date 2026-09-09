@@ -29,4 +29,5 @@ private BigDecimal quantity;
     private LocalDate expiryDate;
     private String barcode;
 private String imageUrl;
+private Long categoryId;
 }

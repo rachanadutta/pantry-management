@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.example.pantry.category.dto.CategoryResponseDTO;
 import com.example.pantry.item.entity.Unit;
 
 import lombok.Getter;
@@ -23,4 +24,5 @@ public class PantryItemResponseDTO {
     private String imageUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private CategoryResponseDTO category;
 }
