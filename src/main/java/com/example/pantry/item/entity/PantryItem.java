@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.example.pantry.category.entity.Category;
+import com.example.pantry.storage.entity.StorageLocation;
 import com.example.pantry.user.entity.User;
 
 import jakarta.persistence.Column;
@@ -64,9 +65,9 @@ private LocalDateTime updatedAt;
 @JoinColumn(name = "category_id")
 private Category category;
 
-// @ManyToOne
-// @JoinColumn(name = "storage_location_id")
-// private StorageLocation storageLocation;
+@ManyToOne
+@JoinColumn(name = "storage_location_id")
+private StorageLocation storageLocation;
 
 
 

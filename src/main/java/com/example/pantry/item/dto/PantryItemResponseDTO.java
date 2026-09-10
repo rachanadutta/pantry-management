@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import com.example.pantry.category.dto.CategoryResponseDTO;
 import com.example.pantry.item.entity.Unit;
+import com.example.pantry.storage.dto.StorageLocationResponseDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,5 @@ public class PantryItemResponseDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private CategoryResponseDTO category;
+    private StorageLocationResponseDTO storageLocation;
 }

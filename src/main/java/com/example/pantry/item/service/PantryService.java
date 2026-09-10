@@ -15,6 +15,10 @@ import com.example.pantry.item.dto.PantryItemRequestDTO;
 import com.example.pantry.item.dto.PantryItemResponseDTO;
 import com.example.pantry.item.entity.PantryItem;
 import com.example.pantry.item.repository.PantryRepository;
+import com.example.pantry.storage.dto.StorageLocationResponseDTO;
+import com.example.pantry.storage.entity.StorageLocation;
+import com.example.pantry.storage.entity.StorageLocationType;
+import com.example.pantry.storage.repository.StorageLocationRepository;
 import com.example.pantry.user.entity.User;
 import com.example.pantry.user.repository.UserRepository;
 
@@ -24,15 +28,18 @@ public class PantryService {
     private final PantryRepository pantryRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final StorageLocationRepository storageLocationRepository;
 
     public PantryService(
             PantryRepository pantryRepository,
             UserRepository userRepository,
-            CategoryRepository categoryRepository) {
+            CategoryRepository categoryRepository,
+            StorageLocationRepository storageLocationRepository) {
 
         this.pantryRepository = pantryRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
+        this.storageLocationRepository = storageLocationRepository;
     }
 
     public PantryItemResponseDTO addItem(PantryItemRequestDTO itemDTO) {
@@ -62,6 +69,24 @@ public class PantryService {
 
             item.setCategory(category);
         }
+        StorageLocation storageLocation = null;
+
+if (itemDTO.getStorageLocationId() != null) {
+
+    storageLocation = storageLocationRepository
+            .findById(itemDTO.getStorageLocationId())
+            .orElseThrow(() -> new ResourceNotFoundException(
+                    "Storage location not found"));
+
+    if (storageLocation.getType() == StorageLocationType.CUSTOM
+            && !storageLocation.getUser().getId().equals(user.getId())) {
+
+        throw new ResourceNotFoundException(
+                "Storage location not found");
+    }
+
+    item.setStorageLocation(storageLocation);
+}
 
         // Use custom image if provided.
         // Otherwise, use the selected category's default image.
@@ -152,6 +177,27 @@ public class PantryService {
         } else {
             item.setCategory(null);
         }
+        StorageLocation storageLocation = null;
+
+if (itemDTO.getStorageLocationId() != null) {
+
+    storageLocation = storageLocationRepository
+            .findById(itemDTO.getStorageLocationId())
+            .orElseThrow(() -> new ResourceNotFoundException(
+                    "Storage location not found"));
+
+    if (storageLocation.getType() == StorageLocationType.CUSTOM
+            && !storageLocation.getUser().getId().equals(user.getId())) {
+
+        throw new ResourceNotFoundException(
+                "Storage location not found");
+    }
+
+    item.setStorageLocation(storageLocation);
+
+} else {
+    item.setStorageLocation(null);
+}
 
         // Use custom image if provided.
         // Otherwise, use the selected category's default image.
@@ -211,6 +257,17 @@ public class PantryService {
 
             responseDTO.setCategory(categoryDTO);
         }
+        if (item.getStorageLocation() != null) {
+
+    StorageLocationResponseDTO storageLocationDTO =
+            new StorageLocationResponseDTO();
+
+    storageLocationDTO.setId(item.getStorageLocation().getId());
+    storageLocationDTO.setName(item.getStorageLocation().getName());
+    storageLocationDTO.setType(item.getStorageLocation().getType());
+
+    responseDTO.setStorageLocation(storageLocationDTO);
+}
 
         return responseDTO;
     }

@@ -39,4 +39,15 @@ public ResponseEntity<ApiErrorResponse> handleResourceNotFound(
             .status(HttpStatus.NOT_FOUND)
             .body(response);
 }
+@ExceptionHandler(ResourceConflictException.class)
+public ResponseEntity<ApiErrorResponse> handleResourceConflict(
+        ResourceConflictException e) {
+
+    ApiErrorResponse response =
+            new ApiErrorResponse(e.getMessage());
+
+    return ResponseEntity
+            .status(HttpStatus.CONFLICT)
+            .body(response);
+}
 }
