@@ -30,6 +30,7 @@ public class GoogleOAuth2SuccessHandler implements AuthenticationSuccessHandler 
         this.googleLoginCodeService = googleLoginCodeService;
     }
 
+
     @Override
     public void onAuthenticationSuccess(
             HttpServletRequest request,

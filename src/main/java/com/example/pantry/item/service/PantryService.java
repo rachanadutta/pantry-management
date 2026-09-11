@@ -69,7 +69,7 @@ public class PantryService {
 
             item.setCategory(category);
         }
-        StorageLocation storageLocation = null;
+        StorageLocation storageLocation;
 
 if (itemDTO.getStorageLocationId() != null) {
 
@@ -177,7 +177,7 @@ if (itemDTO.getStorageLocationId() != null) {
         } else {
             item.setCategory(null);
         }
-        StorageLocation storageLocation = null;
+        StorageLocation storageLocation ;
 
 if (itemDTO.getStorageLocationId() != null) {
 
