@@ -1,8 +1,12 @@
 package com.example.pantry.item.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,7 @@ import com.example.pantry.item.dto.PantryItemRequestDTO;
 import com.example.pantry.item.dto.PantryItemResponseDTO;
 import com.example.pantry.item.entity.PantryItem;
 import com.example.pantry.item.repository.PantryRepository;
+import com.example.pantry.item.specification.PantryItemSpecification;
 import com.example.pantry.storage.dto.StorageLocationResponseDTO;
 import com.example.pantry.storage.entity.StorageLocation;
 import com.example.pantry.storage.entity.StorageLocationType;
@@ -29,6 +34,8 @@ public class PantryService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final StorageLocationRepository storageLocationRepository;
+    private static final Set<String> ALLOWED_SORT_FIELDS =
+        Set.of("expiryDate", "name", "quantity", "createdAt");
 
     public PantryService(
             PantryRepository pantryRepository,
@@ -104,7 +111,7 @@ if (itemDTO.getStorageLocationId() != null) {
         return convertToResponseDTO(savedItem);
     }
 
-    public List<PantryItemResponseDTO> getItems() {
+    public List<PantryItemResponseDTO> getItems(String search,Long categoryId,Long storageLocationId,Boolean expired,LocalDate from,LocalDate to,String sortBy,String sortOrder) {
 
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
@@ -113,9 +120,62 @@ if (itemDTO.getStorageLocationId() != null) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Specification<PantryItem> specification =
+        PantryItemSpecification.hasUser(user.getId());
+        if (search != null && !search.isBlank()) {
+    specification = specification.and(
+            PantryItemSpecification.hasName(search)
+                    .or(PantryItemSpecification.hasBarcode(search))
+    );
+}
+        if(categoryId!=null){
+                specification = specification.and(
+                PantryItemSpecification.hasCategory(categoryId)
+                );
+        }
+
+        if(storageLocationId!=null){
+                specification = specification.and(
+                PantryItemSpecification.hasStorageLocation(storageLocationId)
+                );
+        }
+        if(expired!=null){
+                specification = specification.and(
+                PantryItemSpecification.hasExpired(expired)
+                );
+        }
+        if(from!=null || to!=null){
+                specification = specification.and(
+                PantryItemSpecification.expiryBetween(from,to)
+                );
+        }
+        Sort sort;
+
+        if (sortBy != null) {
+
+    if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {
+        throw new IllegalArgumentException("Invalid sort field" + sortBy);
+    }
+
+    if (sortOrder != null &&
+            !sortOrder.equalsIgnoreCase("asc") &&
+            !sortOrder.equalsIgnoreCase("desc")) {
+        throw new IllegalArgumentException("Invalid sort order" + sortOrder);
+    }
+
+    if (sortOrder != null && sortOrder.equalsIgnoreCase("desc")) {
+        sort = Sort.by(Sort.Direction.DESC, sortBy);
+    } else {
+        sort = Sort.by(Sort.Direction.ASC, sortBy);
+    }
+
+} else {
+    sort = Sort.unsorted();
+}
 
         List<PantryItem> items =
-                pantryRepository.findByUserId(user.getId());
+        pantryRepository.findAll(specification,sort);
+        
 
         List<PantryItemResponseDTO> responseList = new ArrayList<>();
 

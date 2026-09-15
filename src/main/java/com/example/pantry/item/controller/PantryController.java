@@ -1,5 +1,6 @@
 package com.example.pantry.item.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.pantry.item.dto.PantryItemRequestDTO;
@@ -34,8 +36,8 @@ public class PantryController {
     }
 
     @GetMapping
-    public List<PantryItemResponseDTO> getAllItems() {
-        return pantryService.getItems();
+    public List<PantryItemResponseDTO> getAllItems(@RequestParam(required=false) String search,@RequestParam (required=false) Long categoryId, @RequestParam (required=false) Long storageLocationId, @RequestParam (required=false) Boolean expired,@RequestParam (required=false) LocalDate from,@RequestParam (required=false) LocalDate to,@RequestParam (required=false) String sort,@RequestParam (required=false) String order) {
+        return pantryService.getItems(search,categoryId,storageLocationId,expired,from,to,sort,order);
     }
     
     @GetMapping("/{itemId}")

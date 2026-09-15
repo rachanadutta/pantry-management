@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.example.pantry.item.entity.PantryItem;
-
-public interface PantryRepository extends JpaRepository<PantryItem, Long> {
+public interface PantryRepository extends JpaRepository<PantryItem, Long>,JpaSpecificationExecutor<PantryItem> {
     List<PantryItem> findByUserId(Long userId);
     Optional<PantryItem> findByIdAndUserId(Long itemId, Long userId);
     
